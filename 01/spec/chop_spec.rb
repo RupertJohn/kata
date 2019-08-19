@@ -13,7 +13,7 @@ RSpec.shared_examples 'a chopper' do
     end
 
     context 'when element is in array' do
-        it 'returns the elements index in athe array' do
+        it 'returns the elements index in the array' do
             expect(chopper.chop(3, [3])).to eq(0)
         end
     end
