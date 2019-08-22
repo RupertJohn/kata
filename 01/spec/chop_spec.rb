@@ -59,7 +59,7 @@ end
 
 module Chop
     describe V1 do
-        it_behaves_like 'a chopper' 
+        it_behaves_like 'a chopper'
     end
 
     describe V2 do

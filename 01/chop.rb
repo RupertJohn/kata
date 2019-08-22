@@ -21,8 +21,8 @@ module Chop
             return -1 if sorted_array.length == 0
             midpoint = (sorted_array.length / 2.0).ceil - 1
             return midpoint if target == sorted_array[midpoint]
-            return 0 if sorted_array.length == 1
-            index = target < sorted_array[midpoint] ? chop(target, sorted_array[0..midpoint - 1]) : midpoint + 1 + chop(target, sorted_array[midpoint + 1..-1])
+            return -1 if sorted_array.length == 1
+            index = target < sorted_array[midpoint] ? chop(target, sorted_array[0..midpoint]) : midpoint + 1 + chop(target, sorted_array[midpoint + 1..-1])
             sorted_array[index] == target ? index : -1
         end
     end
