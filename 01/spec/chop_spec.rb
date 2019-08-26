@@ -3,55 +3,73 @@ require_relative '../chop'
 require 'pry'
 
 RSpec.shared_examples 'a chopper' do
-    let(:chopper) { described_class.new }
+    let(:chopper) { described_class.new(target, sorted_array) }
+    let(:target) { (rand*10).floor }
+    let(:sorted_array) { [] }
+
+    context 'when array is empty' do
+        it 'returns -1' do
+            expect(chopper.chop).to eq -1
+        end
+    end
 
     context 'when element not in array' do
+        let(:sorted_array) { [target + 1] }
+
         it 'returns -1' do
-            expect(chopper.chop(3, [])).to eq(-1)
-            expect(chopper.chop(3, [1])).to eq(-1)
+            expect(chopper.chop).to eq(-1)
         end
     end
 
     context 'when element is in array' do
+        let(:sorted_array) { [target] }
+
         it 'returns the elements index in the array' do
-            expect(chopper.chop(3, [3])).to eq(0)
+            expect(chopper.chop).to eq(0)
         end
     end
 
     context 'when array length is even' do
+        let(:sorted_array) { [1, 3, 5, 7] }
+
         context 'with element missing' do
-            it 'returns -1' do
-                expect(chopper.chop(0, [1, 3, 5, 7])).to eq(-1)
-                expect(chopper.chop(2, [1, 3, 5, 7])).to eq(-1)
-                expect(chopper.chop(4, [1, 3, 5, 7])).to eq(-1)
-                expect(chopper.chop(6, [1, 3, 5, 7])).to eq(-1)
+            # [0, 2, 4, 6, 8].each do |x|
+            [4].each do |x|
+                it 'returns -1' do
+                    chopper.target = x
+                    expect(chopper.chop).to eq(-1)
+                end
             end
         end
 
         context 'with element present' do
-            it 'returns the index of the element' do
-                expect(chopper.chop(1, [1, 3, 5, 7])).to eq(0)
-                expect(chopper.chop(3, [1, 3, 5, 7])).to eq(1)
-                expect(chopper.chop(5, [1, 3, 5, 7])).to eq(2)
-                expect(chopper.chop(7, [1, 3, 5, 7])).to eq(3)
+            [1, 3, 5, 7].each.with_index do |x, i|
+                it 'returns the index of the element' do
+                    chopper.target = x
+                    expect(chopper.chop).to eq(i)
+                end
             end
         end
     end
 
     context 'when array length is odd' do
+        let(:sorted_array) { [1, 3, 5] }
+
         context 'with element missing' do
-            it 'returns -1' do
-                expect(chopper.chop(0, [1, 3, 5])).to eq(-1)
-                expect(chopper.chop(2, [1, 3, 5])).to eq(-1)
-                expect(chopper.chop(4, [1, 3, 5])).to eq(-1)
+            [0, 2, 4, 6].each do |x|
+                it 'returns -1' do
+                    chopper.target = x
+                    expect(chopper.chop).to eq(-1)
+                end
             end
         end
 
         context 'with element present' do
-            it 'returns the index of the element' do
-                expect(chopper.chop(1, [1, 3, 5])).to eq(0)
-                expect(chopper.chop(3, [1, 3, 5])).to eq(1)
-                expect(chopper.chop(5, [1, 3, 5])).to eq(2)
+            [1, 3, 5].each.with_index do |x, i|
+                it 'returns the index of the element' do
+                    chopper.target = x
+                    expect(chopper.chop).to eq(i)
+                end
             end
         end
     end
