@@ -1,6 +1,5 @@
 require 'rspec'
 require_relative '../chop'
-require 'pry'
 
 RSpec.shared_examples 'a chopper' do
     let(:chopper) { described_class.new(target, sorted_array) }
