@@ -35,13 +35,19 @@ RSpec.describe DatFileHandler do
 
     context 'with #clean!' do
         it 'cleans the data' do
-            expect(handler.lines.length).to eq 5
+            expect(handler.lines.length).to eq 6
+            lines_lengths_equal = handler.lines.all? { |line| line.length == handler.headers.length }
+            expect(lines_lengths_equal).to be true
         end
     end
 
+    it 'finds column ranges from the header row' do
+        expect(subject.new('whatever', 'r').data_start_indexes).to eq([1, 4, 10, 16, 22, 29, 34, 39, 45, 52, 57, 62, 66, 70, 75, 79, 83])
+    end
+
     it 'dynamically defines accessor methods for headers' do
-        expect { handler.Dy}.not_to raise_error
-        expect { handler.false_header }.to raise_error
+        expect { handler.Dy }.not_to raise_error
+        expect { handler.false_header }.to raise_error(NoMethodError)
     end
 
     it 'responds to dynamically defined accessor methods' do

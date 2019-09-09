@@ -15,22 +15,28 @@ class FileHandler
 end
 
 class DatFileHandler < FileHandler
-    attr_accessor :headers
+    attr_accessor :headers, :data_start_indexes
 
     def initialize(filename, mode)
         super
         clean!
-        @headers = lines[0]
-        @lines = @lines[1..-2]
+        @lines = @lines[1..-1]
     end
 
     def clean!
+        @headers = lines[0].scan(/\w+/)
+        @data_start_indexes = find_columns
         lines.map! do |line|
-            line.strip!
-            line.gsub!(/\s+/, ",")
-            line.split(",")
+            next unless line.length > data_start_indexes[-1]
+            split_line(line)
         end
-        lines.reject!(&:empty?)
+        lines.reject!(&:nil?)
+    end
+
+    def find_columns
+        lines[0].scan(/\s\w+/).map do |header|
+            self.lines[0].index(header)
+        end
     end
 
     def method_missing(column_name, *arguments, &block)
@@ -46,4 +52,12 @@ class DatFileHandler < FileHandler
     def respond_to_missing?(column_name, include_private = false)
         headers.map(&:to_sym).include? column_name || super
     end
+
+    private
+
+        def split_line(line)
+            data_start_indexes.reverse.each_with_object([]) do |x, split_line|
+                split_line.unshift(line.slice!(x..-1).strip)
+            end
+        end
 end
