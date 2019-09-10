@@ -28,6 +28,7 @@ class DatFileHandler < FileHandler
         @data_start_indexes = find_columns
         lines.map! do |line|
             next unless line.length > data_start_indexes[-1]
+            next unless line.match? /[a-zA-Z0-9]/
             split_line(line)
         end
         lines.reject!(&:nil?)
