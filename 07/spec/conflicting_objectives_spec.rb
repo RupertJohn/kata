@@ -22,7 +22,7 @@ RSpec.describe ConflictingObjectives do
 
   describe '#grouped_words' do
     specify { expect(subject.grouped_words).to be_a Hash }
-    specify { expect(subject.grouped_words.values.first).to be_an Array }
+    specify { expect(subject.grouped_words.values).to all(be_an Array) }
 
     it 'groups words by length' do
       expect(subject.grouped_words[3]).to eq ['and']
