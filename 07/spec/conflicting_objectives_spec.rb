@@ -19,4 +19,15 @@ RSpec.describe ConflictingObjectives do
       ])
     end
   end
+
+  describe '#grouped_words' do
+    specify { expect(subject.grouped_words).to be_a Hash }
+    specify { expect(subject.grouped_words.values.first).to be_an Array }
+
+    it 'groups words by length' do
+      expect(subject.grouped_words[3]).to eq ['and']
+      expect(subject.grouped_words[4]).to eq ['some', 'text', 'some', 'more']
+      expect(subject.grouped_words[6]).to eq ['Here\'s']
+    end
+  end
 end
