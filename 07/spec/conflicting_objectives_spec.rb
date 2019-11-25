@@ -15,13 +15,13 @@ RSpec.describe ConflictingObjectives do
     end
   end
 
-  describe '#filter_words' do
+  describe '#filter_words!' do
     before do
       subject.read_words
     end
 
     it 'returns all words that are 6 characters or less' do
-      expect(subject.filter_words).to eq(%w[
+      expect(subject.filter_words!).to eq(%w[
         Here's
         some
         text

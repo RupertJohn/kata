@@ -7,7 +7,12 @@ class ConflictingObjectives
     @words = file.read
   end
 
+  def filter_words!
+    self.words = words.scan(/^.{1,6}$/)
+  end
+
   private
 
-  attr_reader :file, :words
+  attr_accessor :words
+  attr_reader :file
 end
