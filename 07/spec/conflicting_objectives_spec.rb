@@ -5,23 +5,11 @@ RSpec.describe ConflictingObjectives do
 
   let(:fake_file) { StringIO.new("Here's\nsome\ntext\nand\nsome\nmore\nreallylongword") }
 
-  describe '#read_words' do
-    it 'returns a string' do
-      expect(subject.read_words).to be_a String
-    end
-
-    it 'returns the file contents' do
-      expect(subject.read_words).to eq("Here's\nsome\ntext\nand\nsome\nmore\nreallylongword")
-    end
-  end
-
-  describe '#filter_words!' do
-    before do
-      subject.read_words
-    end
+  describe '#words' do
+    specify { expect(subject.words).to be_an Array }
 
     it 'returns all words that are 6 characters or less' do
-      expect(subject.filter_words!).to eq(%w[
+      expect(subject.words).to eq(%w[
         Here's
         some
         text
