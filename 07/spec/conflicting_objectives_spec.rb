@@ -30,4 +30,20 @@ RSpec.describe ConflictingObjectives do
       expect(subject.grouped_words[6]).to eq ['Here\'s']
     end
   end
+
+  describe '#combined_words' do
+    let(:fake_file) { StringIO.new("a\nthing\ncon\nvex") }
+
+    specify { expect(subject.combined_words).to be_an Array }
+    specify { expect(subject.combined_words.map(&:length)).to all(be 6) }
+
+    it 'combines all shorter words into 6 character words' do
+      expect(subject.combined_words).to eq(%w[
+        athing
+        thinga
+        convex
+        vexcon
+      ])
+    end
+  end
 end
